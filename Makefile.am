@@ -1,0 +1,3 @@
+ACLOCAL_AMFLAGS = -I m4
+SUBDIRS = lib src
+EXTRA_DIST = AUTHORS COPYING m4/gnulib-cache.m4

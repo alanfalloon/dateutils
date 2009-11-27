@@ -1,5 +1,5 @@
 # -*- autoconf -*-
-AC_INIT([dateadd],
+AC_INIT([dateutils],
         [0.1.0],
         [alan.falloon@gmail.com])
 

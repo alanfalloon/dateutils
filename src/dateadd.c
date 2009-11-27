@@ -21,8 +21,10 @@
 #include "timespec.h"
 #include "fprintftime.h"
 
+#define PROGRAM_NAME "dateadd"
+
 const char * argp_program_version =
-  PACKAGE_STRING
+  PROGRAM_NAME " (" PACKAGE_NAME ") " VERSION
   " Copyright (c) 2009 Alan Falloon\n"
   "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n"
   "This is free software: you are free to change and redistribute it.\n"

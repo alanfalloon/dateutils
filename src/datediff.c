@@ -146,6 +146,44 @@ static void diff_time(const struct timespec *start,
     const int end   = tm_unit(&end_tm  , tm_offset[i]);
     res[i] = end-start;
   }
+  
+  /* remove negative units by carrying from the next higher unit. */
+  for( i = num_units-1; i >=0; --i )
+    switch (i) {
+    case year  : break;
+    case week  : break;
+#   define CARRY(from,howmuch) do {             \
+        if (res[i]<0) {                         \
+          res[i] += howmuch;                    \
+          --res[from];                          \
+        }                                       \
+      } while(0); break
+    case month : CARRY(year  ,12);
+    case hour  : CARRY(day   ,24);
+    case minute: CARRY(hour  ,60);
+    case second: CARRY(minute,60);
+#   undef CARRY
+    case day:
+      /* Carrying days from months is a pain, because it requires
+       * knowing what month we are in. Worse: it requires knowing what
+       * year in order to handle leap years.
+       *
+       * The easiest course of action is to just use mktime(3) to
+       * roll-back one month from the end date, then calculate how
+       * many days there are between that and the old end date. */
+      if (res[day]<0)
+#       define SEC_PER_DAY (86400)
+        {
+          const time_t old_end = end->tv_sec;
+          time_t new_end;
+          end_tm.tm_mon -= 1;
+          new_end = mktime(&end_tm);
+          res[day] += (old_end-new_end+(SEC_PER_DAY/2))/SEC_PER_DAY;
+          --res[month];
+        }
+      break;
+    }
+
   res[week] = res[day]  / 7;
   res[day] -= res[week] * 7;
 }

@@ -1,6 +1,6 @@
 # -*- autoconf -*-
 AC_INIT([dateutils],
-        [0.1.0],
+        m4_esyscmd([build-aux/git-version-gen .tarball-version]),
         [alan.falloon@gmail.com])
 
 AC_CONFIG_SRCDIR([src/dateadd.c])

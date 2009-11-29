@@ -13,8 +13,10 @@ dist-hook:
 .PHONY: gen-ChangeLog
 dist-hook: gen-ChangeLog
 gen-ChangeLog:
-	$(AM_V_GEN)if git rev-parse --git-dir 2>&1 >/dev/null; then		\
-	  $(top_srcdir)/build-aux/gitlog-to-changelog > $(distdir)/cl-t;	\
+	$(AM_V_GEN)if (cd $(top_srcdir) &&					\
+	               git rev-parse --git-dir) 2>&1 >/dev/null; then		\
+	  (cd $(top_srcdir) &&							\
+	   build-aux/gitlog-to-changelog) > $(distdir)/cl-t;			\
 	  rm -f $(distdir)/ChangeLog;						\
 	  mv $(distdir)/cl-t $(distdir)/ChangeLog;				\
 	fi

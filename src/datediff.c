@@ -59,6 +59,7 @@ struct state {
 enum time_units {
   year  ,
   month ,
+  week  ,
   day   ,
   hour  ,
   minute,
@@ -84,6 +85,7 @@ int main(int argc, char *argv[])
   struct time_unit_name time_unit_names[num_units] = {
     {"year"  , "years"  },
     {"month" , "months" },
+    {"week"  , "weeks"  },
     {"day"   , "days"   },
     {"hour"  , "hours"  },
     {"minute", "minutes"},
@@ -117,6 +119,7 @@ int main(int argc, char *argv[])
 static const size_t tm_offset[num_units] = {
   offsetof(struct tm, tm_year),
   offsetof(struct tm, tm_mon ),
+  -1                          ,
   offsetof(struct tm, tm_mday),
   offsetof(struct tm, tm_hour),
   offsetof(struct tm, tm_min ),
@@ -135,10 +138,16 @@ static void diff_time(const struct timespec *start,
   gmtime_r(&start->tv_sec, &start_tm);
   gmtime_r(&end  ->tv_sec, &end_tm  );
   for( i = 0; i < num_units; ++i ) {
+    if(tm_offset[i] == (size_t)-1) {
+      res[i]=0;
+      continue;
+    }
     const int start = tm_unit(&start_tm, tm_offset[i]);
     const int end   = tm_unit(&end_tm  , tm_offset[i]);
     res[i] = end-start;
   }
+  res[week] = res[day]  / 7;
+  res[day] -= res[week] * 7;
 }
 
 static error_t arg_parser(int key, char *arg, struct argp_state *argp_state)

@@ -197,6 +197,9 @@ static error_t arg_parser(int key, char *arg, struct argp_state *argp_state)
   struct timespec now;
   switch (key)
   {
+  case ARGP_KEY_NO_ARGS:
+    argp_usage(argp_state);
+    return EINVAL;
   case ARGP_KEY_ARGS:
     if (argp_state->argc - argp_state->next != 2) {
       argp_error(argp_state, "Expecting exactly two dates, but got %d",

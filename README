@@ -1,0 +1,64 @@
+dateutils
+=========
+
+A small collection of utilities for manipulating dates from the
+command line.
+
+For each utility, the command line arguments can be any date format
+understood by the date(1) command, and relative dates are relative to
+the current time (unless otherwise noted). When a utility displays a
+time, it supports a --format/-f option that accepts any format
+understood by date(1).
+
+The utilities are:
+
+dateadd
+-------
+
+Sum up relative times and dates to get the new date and time.
+
+The command assumes the default starting time is the current time,
+then each argument is added in turn. A non-relative date (such as 'Jan
+23 2009') resets the result to that time; this is mostly used only in
+the first argument.
+
+The output format of the date can be set with the --format/-f
+option.
+
+Example:
+    $ dateadd '2010/01/01' '+2 month'
+    Mon, 01 Mar 2010 00:00:00 -0500
+    $ dateadd '2010/01/01 00:00:00 UTC' '+2 month'
+    Wed, 03 Mar 2010 19:00:00 -0500
+    $ dateadd '2010/01/01' '+2 month' -- '-1 day'
+    Sun, 28 Feb 2010 00:00:00 -0500
+    $ TZ= dateadd '2010/01/01 00:00:00 UTC' '+2 month' '+3 hours'
+    Mon, 01 Mar 2010 03:00:00 +0000
+    $ dateadd -f '%Y/%m/%d' '2010/01/01' '+2 month'
+    2010/03/01
+
+datediff
+--------
+
+Calculate the difference between two dates, and print the result in a
+human readable form (such as '1 year 2 months 3 days 1 hour 15
+seconds').
+
+Example:
+    $ datediff '2010/01/01 00:00:00 UTC' 2010/03/01
+    2 months 5 hours
+    $ TZ= datediff '2010/01/01 00:00:00 UTC' 2010/03/01
+    2 months
+
+
+Installation
+============
+
+Get the latest code from GitHub, bootstrap, configure, make, make
+install:
+    $ git clone git://github.com/alanfalloon/dateutils.git
+    $ cd dateutils
+    $ ./bootstrap
+    $ ./configure
+    $ make
+    $ make install

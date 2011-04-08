@@ -1,11 +1,13 @@
+
 /.version
 /INSTALL
 /aclocal.m4
 /autom4te.cache/
+/build-aux
 /configure
+/doc
 /include/config.h.in
+/lib
+/m4
 Makefile.in
-build-aux
-doc
-lib
-m4
+

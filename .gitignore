@@ -5,7 +5,6 @@
 /build-aux
 /configure
 /doc
-/include/config.h.in
 /lib
 /m4
 Makefile.in

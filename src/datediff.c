@@ -20,7 +20,7 @@
 #include <argp.h>
 #include <stdlib.h>
 #include <stddef.h>
-#include "getdate.h"
+#include "parse-datetime.h"
 #include "timespec.h"
 
 #define PROGRAM_NAME "datediff"
@@ -210,7 +210,7 @@ static error_t arg_parser(int key, char *arg, struct argp_state *argp_state)
     argp_state->next += 2;
     gettime(&now);
     for (i = 0; i < 2; ++i) {
-      r = get_date(&times[i], argv[i], &now);
+      r = parse_datetime(&times[i], argv[i], &now);
       if (!r) {
         argp_error(argp_state, "Unrecognized date format \"%s\"", argv[i]);
         return EINVAL;

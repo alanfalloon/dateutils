@@ -17,7 +17,7 @@
 #include <config.h>
 #include <argp.h>
 #include <stdlib.h>
-#include "getdate.h"
+#include "parse-datetime.h"
 #include "timespec.h"
 #include "fprintftime.h"
 
@@ -86,7 +86,7 @@ static error_t arg_parser(int key, char *arg, struct argp_state *argp_state)
     state->fmt = arg;
     return 0;
   case ARGP_KEY_ARG:
-    r = get_date(&new_date, arg, &state->date);
+    r = parse_datetime(&new_date, arg, &state->date);
     if (!r) {
       argp_error(argp_state, "Unrecognized date format \"%s\"", arg);
       return EINVAL;
